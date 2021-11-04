@@ -1,5 +1,12 @@
 from requests import get
-from webbrowser import open_new
+import asyncio, discord
+from discord.ext import commands
+
+client = commands.Bot(command_prefix='-')
+
+@client.event
+async def on_ready():
+    print('bot online')
 
 free_games = {}
 info_link = 'https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions'
@@ -26,5 +33,18 @@ def get_games_info():
                                         'end_date': game['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['endDate'],
                                         'image': embed_image}
 
+def display_embeds():
+    for game in free_games:
+        embed = discord.Embed(title=game, url=free_games[game]['link'], description=free_games[game]['description'])
+        embed.set_image(url=free_games[game]['image'])
+        embed.set_footer(text='Start Date: ' + free_games[game]['start_date'] + '\nEnd Date: ' + free_games[game]['end_date'])
+        return embed
 
 get_games_info()
+display_embeds()
+
+@client.command()
+async def show_games(ctx):
+    await ctx.send(embed=display_embeds())
+
+client.run('NzExNDg3MTM1MzQwOTUzNjEw.XsDuBw.alMMc8aaYApVHzacWC1icbwUluM')
