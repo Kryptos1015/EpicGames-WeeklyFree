@@ -34,14 +34,12 @@ def get_games_info():
                                         'image': embed_image}
 
 def display_embeds():
+    get_games_info()
     for game in free_games:
         embed = discord.Embed(title=game, url=free_games[game]['link'], description=free_games[game]['description'])
         embed.set_image(url=free_games[game]['image'])
         embed.set_footer(text='Start Date: ' + free_games[game]['start_date'] + '\nEnd Date: ' + free_games[game]['end_date'])
         return embed
-
-get_games_info()
-display_embeds()
 
 @client.command()
 async def show_games(ctx):
