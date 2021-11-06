@@ -42,6 +42,11 @@ def display_embeds():
         return embed
 
 @client.command()
+async def dm_users():
+    for user in client.users:
+        await user.send(embed=display_embeds())
+
+@client.command()
 async def show_games(ctx):
     await ctx.send(embed=display_embeds())
 
