@@ -38,16 +38,29 @@ def display_embeds():
     for game in free_games:
         embed = discord.Embed(title=game, url=free_games[game]['link'], description=free_games[game]['description'])
         embed.set_image(url=free_games[game]['image'])
-        embed.set_footer(text='Start Date: ' + free_games[game]['start_date'] + '\nEnd Date: ' + free_games[game]['end_date'])
+        embed.set_footer(text='Start Date: ' + free_games[game]['start_date'].split('T')[0] + '\nEnd Date: ' + free_games[game]['end_date'].split('T')[0])
         return embed
 
 @client.command()
-async def dm_users():
-    for user in client.users:
+async def show_games(ctx):
+    await ctx.send('React with ✅ if interested, otherwise press ❎')
+
+    embed = display_embeds()
+    msg = await ctx.send(embed=embed)
+    await msg.add_reaction('✅')
+    await msg.add_reaction('❎')
+
+@client.event
+async def on_reaction_add(reaction, user):
+    #check if reaction is from bot, dm embed
+    if user != client.user and reaction.emoji == '✅':
+        await user.send('Please download the game from the link below:')
         await user.send(embed=display_embeds())
 
-@client.command()
-async def show_games(ctx):
-    await ctx.send(embed=display_embeds())
+        #while user does not send "stop" remind them to download game every hour
+        while True:
+            await user.send('Please download the game from the link below:')
+            await user.send(embed=display_embeds())
+            await asyncio.sleep(3600)
 
 client.run('NzExNDg3MTM1MzQwOTUzNjEw.XsDuBw.alMMc8aaYApVHzacWC1icbwUluM')
