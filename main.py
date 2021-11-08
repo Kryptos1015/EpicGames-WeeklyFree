@@ -11,7 +11,7 @@ async def on_ready():
 free_games = {}
 info_link = 'https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions'
 
-# finds the 2 weekly free games, collects game info for bot
+# Finds the two weekly free games on the epic games store, then collects game info for the bot
 def get_games_info():
     request = get(info_link).json()
     request = request['data']['Catalog']['searchStore']['elements']
