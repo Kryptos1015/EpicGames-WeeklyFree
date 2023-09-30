@@ -63,4 +63,4 @@ async def on_reaction_add(reaction, user):
             await user.send(embed=display_embeds())
             await asyncio.sleep(3600)
 
-client.run('NzExNDg3MTM1MzQwOTUzNjEw.XsDuBw.alMMc8aaYApVHzacWC1icbwUluM')
+client.run('<key>')
